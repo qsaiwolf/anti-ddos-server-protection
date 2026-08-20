@@ -1,4 +1,4 @@
-# Anti-DDoS & Server Protection Mechanisms
+# Anti-DDoS Server Protection
 
 [العربية](#العربية) | [English](#english)
 
