@@ -20,17 +20,23 @@ fi
 
 # Ensure dependencies are installed
 if ! command -v clang &> /dev/null || ! dpkg -l | grep -q libbpf-dev; then
-    echo "Required packages (clang, llvm, libbpf-dev, linux-headers) are missing."
+    echo "Required packages (clang, llvm, libbpf-dev, linux-headers, linux-tools-common) are missing."
     read -p "Do you want to install them now? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo "Installing..."
         apt-get update
-        apt-get install -y clang llvm libbpf-dev gcc iproute2 linux-headers-$(uname -r)
+        apt-get install -y clang llvm libbpf-dev gcc iproute2 linux-headers-$(uname -r) linux-tools-common linux-tools-generic
     else
         echo "Dependencies missing. Exiting."
         exit 1
     fi
+fi
+
+# Ensure BPF filesystem is mounted (useful for map pinning and inspection)
+if ! mount | grep -q "/sys/fs/bpf"; then
+    echo "Mounting BPF filesystem..."
+    mount -t bpf bpf /sys/fs/bpf/
 fi
 
 echo "Compiling $SRC_FILE to eBPF bytecode..."
