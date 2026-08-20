@@ -20,6 +20,9 @@ This repository contains a Bash script to protect your server (Anti-DDoS) by res
    - Enable the Proxy option (the orange cloud icon) in your domain's DNS settings.
    - This way, you can take advantage of all Cloudflare features (protection, caching, etc.), and your server will be protected from direct attacks because it will reject any request that doesn't come through Cloudflare.
 
+### Cloudflare WAF & Rate Limiting Rules
+For comprehensive layer 7 protection, please check the [Cloudflare Rules Guide](CLOUDFLARE_RULES.md) included in this repository.
+
 ### Usage
 
 1. Clone the repository to your server:
@@ -61,6 +64,9 @@ This repository contains a Bash script to protect your server (Anti-DDoS) by res
    - قم بإضافة نطاقك (Domain) أو الرابط الخاص بك.
    - قم بتفعيل خيار الـ Proxy (الأيقونة البرتقالية ذات السحابة) في إعدادات DNS للنطاق.
    - بهذه الطريقة ستتمكن من الاستفادة من جميع مزايا Cloudflare (حماية، كاش، وغيرها)، وسيكون خادمك محمياً من أي هجوم مباشر لأنه سيرفض أي طلب لا يأتي من خلال Cloudflare.
+
+### قواعد حماية Cloudflare (WAF & Rate Limiting)
+لحماية الطبقة السابعة (Layer 7) بشكل متكامل، يرجى مراجعة [دليل قواعد Cloudflare](CLOUDFLARE_RULES.md) المرفق في هذا المستودع.
 
 ### طريقة الاستخدام
 
