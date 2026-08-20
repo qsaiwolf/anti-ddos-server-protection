@@ -131,8 +131,22 @@ fi
 if [ "$GENERAL_TCP_SYN_ENABLE" == "true" ] && [ ${#TCP_PORTS[@]} -gt 0 ]; then
     echo "🛡️ Enabling Global TCP SYN Flood Protection..."
     COMMA_PORTS=$(IFS=,; echo "${TCP_PORTS[*]}")
-    run_rule "-A GAME_PROTECTION -p tcp --syn -m multiport --dports $COMMA_PORTS -m recent --name synflood --set"
-    run_rule "-A GAME_PROTECTION -p tcp --syn -m multiport --dports $COMMA_PORTS -m recent --name synflood --update --seconds 1 --hitcount $GENERAL_TCP_SYN_LIMIT -j DROP"
+    
+    if [ "$USE_SYNPROXY" == "true" ] && [ "$DRY_RUN" != "true" ]; then
+        echo "🛡️ Configuring SYNPROXY via sysctl..."
+        sysctl -w net.ipv4.tcp_syncookies=1 >/dev/null
+        sysctl -w net.ipv4.tcp_timestamps=1 >/dev/null
+        sysctl -w net.netfilter.nf_conntrack_tcp_loose=0 >/dev/null
+        
+        # Raw table for untracked SYNs
+        iptables -t raw -A PREROUTING -p tcp -m tcp --syn -m multiport --dports $COMMA_PORTS -j CT --notrack
+        iptables -A GAME_PROTECTION -p tcp -m tcp -m state --state INVALID,UNTRACKED -m multiport --dports $COMMA_PORTS -j SYNPROXY --sack-perm --timestamp --wscale 7 --mss 1460
+        iptables -A GAME_PROTECTION -p tcp -m state --state INVALID -j DROP
+    else
+        # Fallback to recent module
+        run_rule "-A GAME_PROTECTION -p tcp --syn -m multiport --dports $COMMA_PORTS -m recent --name synflood --set"
+        run_rule "-A GAME_PROTECTION -p tcp --syn -m multiport --dports $COMMA_PORTS -m recent --name synflood --update --seconds 1 --hitcount $GENERAL_TCP_SYN_LIMIT -j DROP"
+    fi
 fi
 
 # 9. General UDP Rate Limiting

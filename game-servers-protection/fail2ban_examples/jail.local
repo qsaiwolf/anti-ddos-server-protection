@@ -1,0 +1,11 @@
+[source-engine]
+enabled = true
+port = 27015
+protocol = udp
+filter = source-engine
+logpath = /home/steam/csgo/csgo/logs/*.log
+maxretry = 5
+findtime = 600
+bantime = 3600
+# Optionally use a custom action to insert into XDP map instead of iptables!
+# action = xdp-ban

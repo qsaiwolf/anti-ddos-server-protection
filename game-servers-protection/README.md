@@ -12,28 +12,28 @@ This toolkit provides **Enterprise-Level Protection** using two layers:
 
 ### How to Use
 
-#### 1. XDP Filter (High-Performance UDP Drop)
-Navigate to the `xdp_filter/` folder and run the loader. It will compile the C program and attach it to your network card.
-```bash
-cd xdp_filter
-sudo ./load_xdp.sh eth0 load
-```
-*(Replace `eth0` with your actual network interface name).*
-- To remove the filter, run: `sudo ./load_xdp.sh eth0 unload`
+The toolkit is unified under a single, easy-to-use CLI tool called `game-shield.sh`.
 
-#### 2. iptables Smart Game Filters
-Navigate to the `iptables_filters/` folder.
-1. Open `game_config.ini` in any text editor.
+#### Configuration First
+1. Open `iptables_filters/game_config.ini` in any text editor.
 2. Change `ENABLE="true"` for the games you host (CS:GO, Minecraft, SAMP, FiveM, TS3, Custom Ports).
-3. Set `ENABLE_IPV6="true"` if your server listens on IPv6 as well.
-4. Apply the rules:
+3. Set your `WHITELIST_IPS` if you have trusted admins.
+4. Set `ENABLE_IPV6="true"` if your server listens on IPv6.
+
+#### Start the Shield
 ```bash
-cd iptables_filters
-chmod +x apply_game_rules.sh
-sudo ./apply_game_rules.sh apply
+chmod +x game-shield.sh
+sudo ./game-shield.sh start eth0
 ```
-- To safely preview the rules without applying them, run: `sudo ./apply_game_rules.sh --dry-run`
-- To flush (remove) all game rules, run: `sudo ./apply_game_rules.sh flush`
+*(Replace `eth0` with your network interface).*
+
+#### Helpful Commands
+- **Check Status (Live Dropped Packets):** `sudo ./game-shield.sh status`
+- **Self-Test (Simulate Attack):** `sudo ./game-shield.sh test`
+- **Preview Rules:** `sudo ./game-shield.sh dry-run`
+- **Stop & Flush:** `sudo ./game-shield.sh stop`
+
+> **📚 For real-world usage scenarios, read [EXAMPLES.md](EXAMPLES.md)**
 
 Everything is modular! You can modify `game_config.ini` and re-run the script anytime.
 
@@ -58,18 +58,29 @@ sudo ./load_xdp.sh eth0 load
 *(استبدل `eth0` باسم كرت الشبكة الخاص بك).*
 - لإزالة الفلتر، استخدم الأمر: `sudo ./load_xdp.sh eth0 unload`
 
-#### 2. فلاتر الألعاب الذكية (iptables)
-ادخل إلى مجلد `iptables_filters/`.
-1. افتح ملف `game_config.ini` بأي محرر نصوص.
+### طريقة الاستخدام
+
+الآن أصبح استخدام المنظومة بالكامل مدمجاً في سطر أوامر موحد وسهل جداً عبر سكربت `game-shield.sh`.
+
+#### أولاً: ضبط الإعدادات
+1. افتح ملف `iptables_filters/game_config.ini` بأي محرر نصوص.
 2. ضع `ENABLE="true"` للألعاب التي تمتلكها (متوفر FiveM و TS3 والمزيد والمنافذ المخصصة).
-3. ضع `ENABLE_IPV6="true"` إذا كان السيرفر الخاص بك يدعم ويستقبل اتصالات IPv6.
-4. طبق القواعد فوراً عبر الأمر:
+3. أضف عناوين الـ IP الخاصة بالأدمن في `WHITELIST_IPS` لضمان عدم حظرهم أبدًا.
+4. ضع `ENABLE_IPV6="true"` إذا كان السيرفر يدعم IPv6.
+
+#### ثانياً: تشغيل درع الحماية
 ```bash
-cd iptables_filters
-chmod +x apply_game_rules.sh
-sudo ./apply_game_rules.sh apply
+chmod +x game-shield.sh
+sudo ./game-shield.sh start eth0
 ```
-- لطباعة القواعد ومراجعتها بأمان دون تطبيقها فعلياً (وضع التجربة)، استخدم: `sudo ./apply_game_rules.sh --dry-run`
-- لمسح وإلغاء فلاتر الألعاب، استخدم: `sudo ./apply_game_rules.sh flush`
+*(استبدل `eth0` باسم كرت الشبكة الخاص بك).*
+
+#### أوامر هامة للتحكم:
+- **معرفة حالة السيرفر وعدد الحزم المسقطة مباشرة:** `sudo ./game-shield.sh status`
+- **تشغيل اختبار ذاتي (للتأكد من صد الهجمات):** `sudo ./game-shield.sh test`
+- **مراجعة القواعد قبل تطبيقها:** `sudo ./game-shield.sh dry-run`
+- **إيقاف جميع الحمايات (مسح):** `sudo ./game-shield.sh stop`
+
+> **📚 لتعلم كيفية استخدامه في سيناريوهات واقعية، اقرأ ملف [EXAMPLES.md](EXAMPLES.md)**
 
 النظام مرن جداً! يمكنك التعديل على ملف `game_config.ini` وإعادة تشغيل السكربت في أي وقت.
