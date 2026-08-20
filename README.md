@@ -1,91 +1,35 @@
-# Anti-DDoS HTTP/HTTPS by Cloudflare
+# Anti-DDoS & Server Protection Mechanisms
 
 [العربية](#العربية) | [English](#english)
 
 ## English
 
-This repository contains a Bash script to protect your server (Anti-DDoS) by restricting access to web ports (80 and 443) so that they only accept connections from Cloudflare servers, in addition to your own IP address.
+This repository contains various tools and scripts to protect your server from DDoS attacks, unauthorized access, and malicious bots. 
 
-### How it works
+We have organized the protections into three independent categories. You can choose to use any of them depending on your needs. Please click on the links below to read the detailed instructions for each type:
 
-1. **Applying Rules (The Script):**
-   - When you run the script, it installs `iptables-persistent` to save the rules permanently.
-   - It adds all Cloudflare IP addresses (IPv4 and IPv6) to the whitelist (`ACCEPT`).
-   - It adds your own IP address to the whitelist so you don't lose direct access to the server.
-   - Finally, it drops (`DROP`) any other incoming connections to ports 80 and 443.
+### 1. [Cloudflare iptables Whitelist](./cloudflare-iptables/)
+A script that configures your server firewall to **only accept HTTP/HTTPS traffic (ports 80 and 443) from Cloudflare servers**, preventing attackers from bypassing Cloudflare to hit your server directly.
 
-2. **Cloudflare Setup:**
-   - After running the script successfully, go to your [Cloudflare](https://dash.cloudflare.com/) dashboard.
-   - Add your domain or link.
-   - Enable the Proxy option (the orange cloud icon) in your domain's DNS settings.
-   - This way, you can take advantage of all Cloudflare features (protection, caching, etc.), and your server will be protected from direct attacks because it will reject any request that doesn't come through Cloudflare.
+### 2. [Cloudflare WAF & Rate Limiting Rules](./cloudflare-waf-rules/)
+Recommended configurations for your Cloudflare Dashboard. These rules are designed to block bad bots, mitigate layer 7 (HTTP Flood) attacks, and rate-limit suspicious traffic before it even reaches your server.
 
-### Cloudflare WAF & Rate Limiting Rules
-For comprehensive layer 7 protection, please check the [Cloudflare Rules Guide](CLOUDFLARE_RULES.md) included in this repository.
-
-### Usage
-
-1. Clone the repository to your server:
-   ```bash
-   git clone https://github.com/qsaiwolf/antiddos-http-https-by-cloudflare.git
-   cd antiddos-http-https-by-cloudflare
-   ```
-
-2. Make the script executable:
-   ```bash
-   chmod +x cloudflare_antiddos.sh
-   ```
-
-3. Run the script, passing your IP address as an argument (to allow direct access):
-   ```bash
-   sudo ./cloudflare_antiddos.sh <YOUR_IP_ADDRESS>
-   ```
-   **Example:**
-   ```bash
-   sudo ./cloudflare_antiddos.sh 192.168.1.100
-   ```
+### 3. [Dynamic IP Port Allow (DDNS)](./allow-dynamic-ip-port/)
+A script that secures any port (like SSH port 22) by only allowing connections from your constantly changing home IP address. It uses a dynamic DNS (DDNS) service to automatically update your firewall rules every minute.
 
 ---
 
 ## العربية
 
-هذا المستودع يحتوي على سكربت Bash لحماية الخادم الخاص بك (Anti-DDoS) عن طريق حصر الوصول لمنافذ الويب (80 و 443) بحيث لا تستقبل اتصالات إلا من خوادم Cloudflare، بالإضافة إلى عنوان IP الخاص بك.
+هذا المستودع يحتوي على أدوات وسكربتات متنوعة لحماية الخادم الخاص بك من هجمات الحرمان من الخدمة (DDoS)، والوصول غير المصرح به، والبوتات الخبيثة.
 
-### آلية العمل
+لقد قمنا بتنظيم آليات الحماية في ثلاثة أقسام مستقلة. يمكنك اختيار استخدام أي منها حسب احتياجاتك. يرجى الضغط على الروابط أدناه لقراءة التعليمات التفصيلية لكل نوع:
 
-1. **تفعيل القواعد (السكربت):**
-   - عند تشغيل السكربت، سيقوم بتنزيل `iptables-persistent` لحفظ القواعد بشكل دائم.
-   - سيقوم بإضافة جميع عناوين IP الخاصة بـ Cloudflare (IPv4 و IPv6) إلى القائمة البيضاء (`ACCEPT`).
-   - سيقوم بإضافة عنوان IP الخاص بك إلى القائمة البيضاء حتى لا تفقد القدرة على الاتصال بالخادم.
-   - أخيراً، سيقوم بحظر (`DROP`) أي اتصال آخر قادم إلى المنفذين 80 و 443.
+### 1. [سكربت حصر الاتصال بخوادم Cloudflare](./cloudflare-iptables/)
+سكربت يقوم ببرمجة الجدار الناري لخادمك بحيث **يستقبل اتصالات الويب (المنافذ 80 و 443) حصراً من خوادم Cloudflare**، مما يمنع المهاجمين من تجاوز كلاودفلير وضرب الخادم بشكل مباشر.
 
-2. **التفعيل على Cloudflare:**
-   - بعد تشغيل السكربت بنجاح، اذهب إلى لوحة تحكم حسابك في [Cloudflare](https://dash.cloudflare.com/).
-   - قم بإضافة نطاقك (Domain) أو الرابط الخاص بك.
-   - قم بتفعيل خيار الـ Proxy (الأيقونة البرتقالية ذات السحابة) في إعدادات DNS للنطاق.
-   - بهذه الطريقة ستتمكن من الاستفادة من جميع مزايا Cloudflare (حماية، كاش، وغيرها)، وسيكون خادمك محمياً من أي هجوم مباشر لأنه سيرفض أي طلب لا يأتي من خلال Cloudflare.
+### 2. [قواعد حماية Cloudflare WAF وتقييد الطلبات](./cloudflare-waf-rules/)
+إعدادات وقواعد نوصي بوضعها في لوحة تحكم Cloudflare الخاصة بك. هذه القواعد مصممة لحظر البوتات الخبيثة، وصد هجمات إغراق السيرفر (DDoS Layer 7)، وتقييد حركة المرور المشبوهة قبل أن تصل لخادمك أساساً.
 
-### قواعد حماية Cloudflare (WAF & Rate Limiting)
-لحماية الطبقة السابعة (Layer 7) بشكل متكامل، يرجى مراجعة [دليل قواعد Cloudflare](CLOUDFLARE_RULES.md) المرفق في هذا المستودع.
-
-### طريقة الاستخدام
-
-1. قم بتحميل السكربت إلى خادمك:
-   ```bash
-   git clone https://github.com/qsaiwolf/antiddos-http-https-by-cloudflare.git
-   cd antiddos-http-https-by-cloudflare
-   ```
-
-2. أعطِ السكربت صلاحية التنفيذ:
-   ```bash
-   chmod +x cloudflare_antiddos.sh
-   ```
-
-3. قم بتشغيل السكربت مع تمرير عنوان IP الخاص بك كمُعامل (لكي يسمح لك بالوصول المباشر للخادم):
-   ```bash
-   sudo ./cloudflare_antiddos.sh <YOUR_IP_ADDRESS>
-   ```
-   **مثال:**
-   ```bash
-   sudo ./cloudflare_antiddos.sh 192.168.1.100
-   ```
+### 3. [حماية المنافذ للـ IP المتغير (DDNS)](./allow-dynamic-ip-port/)
+سكربت لحماية أي منفذ في خادمك (مثل منفذ SSH 22) عن طريق السماح بالاتصال به فقط من عنوان الـ IP الخاص بمنزلك (حتى لو كان يتغير باستمرار). يستخدم السكربت خدمة DDNS لتحديث قواعد الجدار الناري تلقائياً كل دقيقة لضمان عدم انقطاع اتصالك وبنفس الوقت إغلاق المنفذ عن العالم.
