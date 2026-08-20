@@ -1,6 +1,6 @@
 # Anti-DDoS HTTP/HTTPS by Cloudflare
 
-[🇪🇬 العربية](#العربية) | [🇬🇧 English](#english)
+[العربية](#العربية) | [English](#english)
 
 ## English
 
