@@ -16,7 +16,9 @@ fi
 USER_IP=$1
 
 echo "Installing iptables-persistent..."
-sudo apt install iptables-persistent -y
+echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
+sudo DEBIAN_FRONTEND=noninteractive apt-get install iptables-persistent -y
 
 echo "Allowing Cloudflare IPv4 addresses..."
 iptables -A INPUT -s 173.245.48.0/20 -j ACCEPT
