@@ -17,6 +17,9 @@ Recommended configurations for your Cloudflare Dashboard. These rules are design
 ### 3. [Dynamic IP Port Allow (DDNS)](./allow-dynamic-ip-port/)
 A script that secures any port (like SSH port 22) by only allowing connections from your constantly changing home IP address. It uses a dynamic DNS (DDNS) service to automatically update your firewall rules every minute.
 
+### 4. [Game Server Protection (eBPF & iptables)](./game-servers-protection/)
+An Enterprise-Level Anti-DDoS toolkit specifically designed for game servers (CS:GO, Minecraft, Rust, SAMP, MTA). It features a blazing fast eBPF/XDP filter for dropping UDP floods at the NIC level, and smart iptables payload filters for game-specific vulnerabilities.
+
 ---
 
 ## العربية
@@ -31,5 +34,8 @@ A script that secures any port (like SSH port 22) by only allowing connections f
 ### 2. [قواعد حماية Cloudflare WAF وتقييد الطلبات](./cloudflare-waf-rules/)
 إعدادات وقواعد نوصي بوضعها في لوحة تحكم Cloudflare الخاصة بك. هذه القواعد مصممة لحظر البوتات الخبيثة، وصد هجمات إغراق السيرفر (DDoS Layer 7)، وتقييد حركة المرور المشبوهة قبل أن تصل لخادمك أساساً.
 
-### 3. [حماية المنافذ للـ IP المتغير (DDNS)](./allow-dynamic-ip-port/)
-سكربت لحماية أي منفذ في خادمك (مثل منفذ SSH 22) عن طريق السماح بالاتصال به فقط من عنوان الـ IP الخاص بمنزلك (حتى لو كان يتغير باستمرار). يستخدم السكربت خدمة DDNS لتحديث قواعد الجدار الناري تلقائياً كل دقيقة لضمان عدم انقطاع اتصالك وبنفس الوقت إغلاق المنفذ عن العالم.
+### 3. [السماح بـ IP ديناميكي للمنافذ (DDNS)](./allow-dynamic-ip-port/)
+سكربت يقوم بحماية أي منفذ (مثل منفذ SSH 22) عن طريق السماح فقط للاتصالات القادمة من عنوان الـ IP المنزلي الخاص بك والذي يتغير باستمرار. يستخدم خدمة DNS ديناميكية (DDNS) لتحديث قواعد الجدار الناري تلقائياً كل دقيقة.
+
+### 4. [حماية سيرفرات الألعاب (eBPF & iptables)](./game-servers-protection/)
+مجموعة أدوات حماية قوية (مستوى شركات) مخصصة لحماية سيرفرات الألعاب (CS:GO, Minecraft, Rust, SAMP, MTA). تتميز بفلتر eBPF/XDP فائق السرعة لصد هجمات الـ UDP قبل وصولها للنظام، بالإضافة إلى فلاتر iptables ذكية لفحص محتوى الحزم وسد ثغرات الألعاب.
