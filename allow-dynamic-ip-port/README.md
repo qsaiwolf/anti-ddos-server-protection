@@ -6,6 +6,10 @@
 
 This folder contains a script that protects a specific port (like SSH port 22) by only allowing connections from a dynamic IP address that is constantly updated via a DDNS (Dynamic DNS) domain.
 
+### ⚠️ Warning
+> [!CAUTION]
+> **Do not run this script if you don't understand how it works!** If your DDNS service fails to update your IP, or if you provide the wrong domain, you will be permanently locked out of your server on that port (e.g., you won't be able to SSH into it). Always make sure you have an alternative way to access your server (like a web console / VNC provided by your hosting provider) before applying this.
+
 ### Mechanism
 If you have a dynamic IP at home (it changes constantly) but you want to protect your server's SSH port from the internet, you can use a free DDNS service (like DuckDNS). 
 The script you run here will:
@@ -33,6 +37,10 @@ The script is fully automated; it will install required tools, generate the upda
 ## العربية
 
 يحتوي هذا المجلد على سكربت لحماية منفذ معين (مثل منفذ SSH 22) عن طريق السماح بالاتصال فقط من عنوان IP ديناميكي (متغير) يتم تحديثه باستمرار عبر نطاق DDNS (مثل DuckDNS).
+
+### ⚠️ تحذير هام
+> [!CAUTION]
+> **لا تقم بتشغيل هذا السكربت إن لم تكن تفهم آلية عمله تماماً!** إذا توقفت خدمة الـ DDNS عن تحديث الـ IP الخاص بك، أو إذا قمت بإدخال نطاق خاطئ، فسيتم حظرك نهائياً من دخول السيرفر عبر ذلك المنفذ (مثلاً لن تتمكن من الدخول عبر SSH). تأكد دائماً أن لديك طريقة بديلة للدخول إلى السيرفر (مثل الـ Web Console أو VNC من لوحة تحكم الاستضافة) قبل تفعيل هذه الحماية.
 
 ### آلية العمل
 إذا كان عنوان IP الخاص بمنزلك متغيراً ولكنك ترغب في حماية منفذ SSH في الخادم الخاص بك بحيث لا يفتح للجميع، يمكنك استخدام خدمة DDNS.
